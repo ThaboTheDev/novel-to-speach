@@ -1,33 +1,34 @@
-Available Voices (use the ID with --voice):
+Available Groq Orpheus voices (https://console.groq.com/docs/text-to-speech)
 
-Male (recommended for deep narration):
-- atlas
-- orion
-- rex
-- helios
-- perseus
-- sirius
-- altair
-- castor
-- cosmo
-- helix
-- kepler
-- leo
-- lumen
-- lux
-- naksh
-- rigel
-- sal
-- zagan
-- zenith
+English — model: canopylabs/orpheus-v1-english
+Supports vocal directions, e.g. --direction "professionally"
+
+Male:
+- troy      Clear, steady — a natural fit for narration
+- daniel    Warm, measured delivery
+- austin    Bright, energetic
 
 Female:
-- ara
-- aurora
-- carina
-- celeste
-- eve
-- iris
-- liora
-- luna
-- ursa
+- hannah    Expressive — handles vocal directions well
+- diana     Calm, composed
+- autumn    Casual, conversational
+
+────────────────────────────────────────────────────────────
+Arabic (Saudi dialect) — model: canopylabs/orpheus-arabic-saudi
+Vocal directions NOT supported.
+
+Male:
+- abdullah
+- fahad
+- sultan
+
+Female:
+- lulwa
+- noura
+- aisha
+
+────────────────────────────────────────────────────────────
+Notes:
+- Hard API limit: 200 characters per request (the tools split automatically)
+- Output format: WAV (24 kHz, 16-bit, mono)
+- Pricing: English $22 / 1M chars · Arabic $40 / 1M chars
