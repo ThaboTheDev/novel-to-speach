@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Semantic design tokens — flipped by the .dark class (set pre-paint in layout).
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --bg: #fafafa;          /* page background        zinc-50   */
+  --panel: #ffffff;       /* card surface           white     */
+  --panel-2: #f4f4f5;     /* inset / subtle fill    zinc-100  */
+  --border: #e4e4e7;      /* hairline borders       zinc-200  */
+  --border-2: #d4d4d8;    /* hover borders          zinc-300  */
+  --text: #18181b;        /* primary text           zinc-900  */
+  --text-2: #52525b;      /* secondary text         zinc-600  */
+  --text-3: #a1a1aa;      /* muted text             zinc-400  */
+  --accent: #18181b;      /* primary buttons        zinc-900  */
+  --accent-fg: #fafafa;   /* text on primary buttons          */
+  --success: #059669;     /* emerald-600 */
+  --danger: #e11d48;      /* rose-600    */
+  --warn: #d97706;        /* amber-600   */
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #09090b;          /* zinc-950  */
+  --panel: #111113;       /* elevated surface */
+  --panel-2: #1b1b1e;     /* zinc-900-ish */
+  --border: #26262a;      /* zinc-800  */
+  --border-2: #3f3f46;    /* zinc-700  */
+  --text: #f4f4f5;        /* zinc-100  */
+  --text-2: #a1a1aa;      /* zinc-400  */
+  --text-3: #71717a;      /* zinc-500  */
+  --accent: #fafafa;      /* white button */
+  --accent-fg: #09090b;
+  --success: #34d399;     /* emerald-400 */
+  --danger: #fb7185;      /* rose-400    */
+  --warn: #fbbf24;        /* amber-400   */
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-border: var(--border);
+  --color-border-2: var(--border-2);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+
+  --animate-rise: rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-2);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(127, 127, 140, 0.25);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-2) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+input[type="range"] {
+  accent-color: var(--text);
+}
+
+audio {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+}

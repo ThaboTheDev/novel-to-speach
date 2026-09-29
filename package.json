@@ -1,0 +1,30 @@
+{
+  "name": "novel-to-speech",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Turn novels and long-form text into downloadable audiobooks with Groq's Orpheus TTS.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "fflate": "^0.8.3",
+    "lamejs": "^1.2.1",
+    "mammoth": "^1.13.0",
+    "next": "^16.3.7",
+    "pdfjs-dist": "^4.10.38",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5"
+  }
+}
