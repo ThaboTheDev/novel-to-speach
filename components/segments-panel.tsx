@@ -19,12 +19,12 @@ export function SegmentsPanel({ segments, player, getSegmentUrl, modelDir }: Pro
         title="Segments"
         hint={
           segments.length
-            ? `${segments.length} requests of ≤200 characters, generated one by one and stitched back together.`
+            ? `${segments.length} requests of ≤200 characters, stitched back together after generation.`
             : "Your text is split into API-sized pieces here."
         }
         right={
           segments.length > 0 ? (
-            <span className="mt-1 shrink-0 font-mono text-[11px] text-zinc-500">
+            <span className="mt-1 shrink-0 font-mono text-[11px] text-text-3">
               {segments.filter((s) => s.status === "done").length}/{segments.length}
             </span>
           ) : undefined
@@ -33,11 +33,11 @@ export function SegmentsPanel({ segments, player, getSegmentUrl, modelDir }: Pro
 
       {segments.length === 0 ? (
         <div className="flex h-48 flex-col items-center justify-center gap-2 px-6 text-center">
-          <span className="text-zinc-600">{Icon.waveform("h-7 w-7")}</span>
-          <p className="text-sm text-zinc-500">Add some text and your segments will appear here.</p>
+          <span className="text-text-3">{Icon.waveform("h-6 w-6")}</span>
+          <p className="text-sm text-text-3">Add some text and your segments will appear here.</p>
         </div>
       ) : (
-        <ol className="min-h-0 flex-1 divide-y divide-white/[0.04] overflow-y-auto">
+        <ol className="min-h-0 flex-1 divide-y divide-border/60 overflow-y-auto">
           {segments.map((seg) => (
             <SegmentRow key={seg.index} seg={seg} player={player} getSegmentUrl={getSegmentUrl} dir={modelDir} />
           ))}
@@ -62,21 +62,21 @@ function SegmentRow({
   const isPlaying = player.playingId === playId;
 
   return (
-    <li className="group flex items-start gap-3 px-4 py-2.5 transition hover:bg-white/[0.03] sm:px-5">
+    <li className="group flex items-start gap-3 px-5 py-2.5 transition hover:bg-panel-2/60">
       <div className="mt-[5px]">
         <StatusDot status={seg.status} />
       </div>
-      <span className="mt-0.5 w-9 shrink-0 font-mono text-[10px] text-zinc-600">#{seg.index + 1}</span>
+      <span className="mt-0.5 w-8 shrink-0 font-mono text-[10px] text-text-3">#{seg.index + 1}</span>
       <div className="min-w-0 flex-1">
-        <p dir={dir === "rtl" ? "rtl" : "ltr"} className="line-clamp-2 text-[12px] leading-snug text-zinc-400">
+        <p dir={dir === "rtl" ? "rtl" : "ltr"} className="line-clamp-2 text-[12px] leading-snug text-text-2">
           {seg.text}
         </p>
         {seg.error && (
-          <p className={`mt-1 text-[11px] ${seg.status === "error" ? "text-rose-400" : "text-amber-400/80"}`}>{seg.error}</p>
+          <p className={`mt-1 text-[11px] ${seg.status === "error" ? "text-danger" : "text-warn"}`}>{seg.error}</p>
         )}
       </div>
       <div className="flex shrink-0 items-center gap-2">
-        <span className="font-mono text-[10px] text-zinc-600">{seg.apiText.length}c</span>
+        <span className="font-mono text-[10px] text-text-3">{seg.apiText.length}c</span>
         {seg.status === "done" && (
           <button
             type="button"
@@ -87,8 +87,8 @@ function SegmentRow({
             }}
             className={`flex h-6 w-6 items-center justify-center rounded-full border transition ${
               isPlaying
-                ? "border-amber-400/60 bg-amber-400/20 text-amber-300"
-                : "border-white/15 text-zinc-500 hover:border-amber-400/50 hover:text-amber-300"
+                ? "border-accent bg-accent text-accent-fg"
+                : "border-border text-text-3 hover:border-border-2 hover:text-text"
             }`}
           >
             {isPlaying ? Icon.stop("h-2.5 w-2.5") : Icon.play("h-2.5 w-2.5")}

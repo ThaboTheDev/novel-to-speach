@@ -43,23 +43,23 @@ export function ManuscriptPanel({ text, onTextChange, disabled, segmentCount, re
     <Card className="overflow-hidden">
       <SectionHeader
         step="01"
-        title="Your manuscript"
-        hint="Paste text or drop a .txt file — blank lines mark paragraphs (they become natural pauses)."
+        title="Manuscript"
+        hint="Paste text or drop a .txt file. Blank lines mark paragraphs and become natural pauses."
         right={
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={() => onTextChange(SAMPLE_TEXT, "sample excerpt")}
               disabled={disabled}
-              className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-zinc-400 transition hover:border-amber-400/40 hover:text-amber-300 disabled:opacity-40"
+              className="rounded-lg border border-border px-2.5 py-1.5 text-xs text-text-2 transition hover:border-border-2 hover:text-text disabled:opacity-40"
             >
-              Try a sample
+              Load sample
             </button>
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
               disabled={disabled}
-              className="flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-zinc-400 transition hover:border-amber-400/40 hover:text-amber-300 disabled:opacity-40"
+              className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs text-text-2 transition hover:border-border-2 hover:text-text disabled:opacity-40"
             >
               {Icon.upload("h-3.5 w-3.5")}
               Upload .txt
@@ -101,25 +101,25 @@ export function ManuscriptPanel({ text, onTextChange, disabled, segmentCount, re
           dir="auto"
           spellCheck={false}
           placeholder={"Once upon a time…\n\nPaste your chapter or full manuscript here."}
-          className="h-64 w-full resize-y bg-transparent px-5 py-4 font-mono text-[13px] leading-relaxed text-zinc-300 placeholder:text-zinc-600 focus:outline-none sm:px-6"
+          className="h-64 w-full resize-y bg-transparent px-5 py-4 font-mono text-[13px] leading-relaxed text-text placeholder:text-text-3 focus:outline-none"
         />
         {dragging && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-amber-400/10 backdrop-blur-[1px]">
-            <p className="flex items-center gap-2 rounded-xl border border-amber-400/30 bg-[#0c0c10]/90 px-4 py-2 text-sm text-amber-300">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center border-2 border-dashed border-border-2 bg-panel/90">
+            <p className="flex items-center gap-2 text-sm text-text-2">
               {Icon.file()} Drop your .txt file
             </p>
           </div>
         )}
         {disabled && (
-          <p className="border-t border-white/[0.06] bg-white/[0.02] px-5 py-2 text-[11px] text-zinc-500 sm:px-6">
+          <p className="border-t border-border bg-panel-2 px-5 py-2 text-[11px] text-text-3">
             Generation is running — stop it to edit the manuscript.
           </p>
         )}
       </div>
 
-      <footer className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/[0.06] px-5 py-3 text-xs text-zinc-500 sm:px-6">
+      <footer className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-border px-5 py-3 text-xs text-text-3">
         {fileName && (
-          <span className="flex items-center gap-1.5 text-zinc-400">
+          <span className="flex items-center gap-1.5 text-text-2">
             {Icon.file("h-3.5 w-3.5")} {fileName}
           </span>
         )}
@@ -136,7 +136,7 @@ export function ManuscriptPanel({ text, onTextChange, disabled, segmentCount, re
 function Stat({ label, value, title }: { label: string; value: string; title?: string }) {
   return (
     <span className="flex items-baseline gap-1.5" title={title}>
-      <span className="font-mono text-zinc-300">{value}</span>
+      <span className="font-mono text-text-2">{value}</span>
       <span>{label}</span>
     </span>
   );

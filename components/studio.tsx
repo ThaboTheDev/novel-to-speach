@@ -9,6 +9,7 @@ import { useGenerator, type GeneratorSettings } from "@/lib/use-generator";
 import { useAudioPlayer } from "@/lib/use-audio-player";
 import { DIRECTION_PRESETS, DEFAULT_MODEL, estimateCostUsd, getModel, sanitizeDirection } from "@/lib/catalog";
 import { Icon } from "./ui";
+import { ThemeToggle } from "./theme-toggle";
 
 const STORAGE_KEY = "n2s:studio:v1";
 
@@ -155,63 +156,50 @@ export function Studio() {
   const running = gen.phase === "running";
 
   return (
-    <div className="relative min-h-screen">
-      {/* Ambient background */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -top-40 left-1/2 h-[480px] w-[820px] -translate-x-1/2 rounded-full bg-amber-500/[0.09] blur-[130px]" />
-        <div className="absolute bottom-0 right-0 h-[380px] w-[520px] rounded-full bg-violet-600/[0.07] blur-[130px]" />
-      </div>
-
+    <div className="min-h-screen bg-bg">
       {/* Header */}
-      <header className="border-b border-white/[0.06]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-300 to-amber-600 text-zinc-950 shadow-[0_8px_24px_-8px_rgba(251,191,36,0.6)]">
-              {Icon.waveform("h-5 w-5")}
+      <header className="border-b border-border bg-panel">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-5 sm:px-6">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-accent-fg">
+              {Icon.waveform("h-4 w-4")}
             </span>
-            <div>
-              <h1 className="font-display text-lg font-semibold tracking-tight text-zinc-100">
-                Novel <span className="text-gradient italic">→ Speech</span>
-              </h1>
-              <p className="text-[11px] text-zinc-500">Audiobook studio · Groq Orpheus</p>
-            </div>
+            <span className="text-sm font-semibold tracking-tight text-text">Novel to Speech</span>
           </div>
-          <nav className="flex items-center gap-2 text-xs">
+          <nav className="flex items-center gap-2">
             <a
               href="https://console.groq.com/keys"
               target="_blank"
               rel="noreferrer"
-              className="rounded-lg border border-white/10 px-3 py-2 text-zinc-400 transition hover:border-amber-400/40 hover:text-amber-300"
+              className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs text-text-2 transition hover:border-border-2 hover:text-text"
             >
-              Get a free API key
+              Get an API key {Icon.external("h-3 w-3")}
             </a>
             <a
               href="https://github.com/ThaboTheDev/novel-to-speach"
               target="_blank"
               rel="noreferrer"
-              className="hidden rounded-lg border border-white/10 px-3 py-2 text-zinc-400 transition hover:border-white/30 hover:text-zinc-200 sm:block"
+              className="flex h-8 items-center rounded-lg border border-border px-2.5 text-xs text-text-2 transition hover:border-border-2 hover:text-text"
             >
               GitHub
             </a>
+            <ThemeToggle />
           </nav>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-7xl px-5 pb-16 sm:px-8">
-        {/* Hero */}
-        <div className="max-w-2xl py-10">
-          <h2 className="font-display text-4xl font-medium leading-[1.08] tracking-tight text-zinc-100 sm:text-5xl">
-            Give your novel a <span className="text-gradient italic">voice</span>.
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
-            Paste a chapter, choose a narrator, and export a finished audiobook. Your text is split into
-            API-sized segments, generated in parallel, and stitched together — entirely in your browser.
+      <main className="mx-auto w-full max-w-6xl px-5 pb-12 sm:px-6">
+        {/* Page title */}
+        <div className="py-7">
+          <h1 className="text-xl font-semibold tracking-tight text-text">Audiobook studio</h1>
+          <p className="mt-1 text-sm text-text-2">
+            Convert long-form text into a downloadable audiobook. Nothing is stored — audio is assembled in your browser.
           </p>
         </div>
 
         {/* Workspace */}
-        <div className="grid items-start gap-6 lg:grid-cols-[1.12fr_1fr]">
-          <div className="space-y-6">
+        <div className="grid items-start gap-5 lg:grid-cols-[1.08fr_1fr]">
+          <div className="space-y-5">
             <ManuscriptPanel
               text={text}
               onTextChange={handleTextChange}
@@ -223,7 +211,7 @@ export function Studio() {
             <NarrationPanel settings={settings} onChange={handleSettingsChange} disabled={running} />
           </div>
 
-          <div className="space-y-6 lg:sticky lg:top-6">
+          <div className="space-y-5 lg:sticky lg:top-5">
             <OutputPanel
               phase={gen.phase}
               counts={gen.counts}
@@ -247,16 +235,21 @@ export function Studio() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.06]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-[11px] text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <footer className="border-t border-border">
+        <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-5 text-xs text-text-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>
             Powered by{" "}
-            <a href="https://console.groq.com/docs/text-to-speech" target="_blank" rel="noreferrer" className="text-zinc-400 underline decoration-white/20 underline-offset-2 hover:text-amber-300">
-              Groq Orpheus TTS
+            <a
+              href="https://console.groq.com/docs/text-to-speech"
+              target="_blank"
+              rel="noreferrer"
+              className="text-text-2 underline decoration-border-2 underline-offset-2 transition hover:text-text"
+            >
+              Groq Orpheus
             </a>
-            {" "}— English $22 / Arabic $40 per 1M characters.
+            {" "}· English $22 / Arabic $40 per 1M characters
           </p>
-          <p>Your API key is only used by the server route — it never reaches the browser.</p>
+          <p>Your API key is only used by the server route.</p>
         </div>
       </footer>
     </div>

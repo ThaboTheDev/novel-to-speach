@@ -85,21 +85,22 @@ export function OutputPanel({
       <SectionHeader
         step="04"
         title="Generate & export"
-        hint="Audio is stitched together in your browser — the API key never leaves the server."
+        hint="Audio is stitched in your browser — the API key never leaves the server."
       />
 
-      <div className="space-y-5 px-5 py-5 sm:px-6">
+      <div className="space-y-5 px-5 py-5">
         {demoMode && (
-          <div className="rounded-xl border border-amber-400/25 bg-amber-400/[0.07] px-4 py-3 text-xs leading-relaxed text-amber-200/90">
-            <strong className="font-semibold">Demo mode:</strong> no <code className="font-mono">GROQ_API_KEY</code> is set, so
-            you&apos;re hearing synthetic placeholder audio. Add the key to hear the real Orpheus voices.
+          <div className="rounded-lg border border-warn/25 bg-warn/[0.07] px-3.5 py-3 text-xs leading-relaxed text-text-2">
+            <strong className="font-semibold text-text">Demo mode:</strong> no{" "}
+            <code className="font-mono">GROQ_API_KEY</code> is set, so you&apos;ll hear synthetic placeholder audio. Add the
+            key to hear the real voices.
           </div>
         )}
 
         {/* Progress */}
         <div>
           <div className="mb-2 flex items-baseline justify-between text-xs">
-            <span className="text-zinc-400">
+            <span className="text-text-2">
               {counts.total === 0
                 ? "Nothing to generate yet"
                 : running
@@ -108,14 +109,14 @@ export function OutputPanel({
                     ? "All segments generated"
                     : `${counts.done} of ${counts.total} generated`}
             </span>
-            <span className="font-mono text-zinc-500">
+            <span className="font-mono text-text-3">
               {running && `${formatDuration(elapsed)} elapsed`}
               {running && eta !== null && ` · ~${formatDuration(eta)} left`}
             </span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="h-1.5 overflow-hidden rounded-full bg-panel-2">
             <div
-              className={`h-full rounded-full transition-[width] duration-300 ${running ? "progress-shimmer" : "bg-amber-400"}`}
+              className="h-full rounded-full bg-accent transition-[width] duration-300"
               style={{ width: `${Math.round(progress * 100)}%` }}
             />
           </div>
@@ -123,19 +124,19 @@ export function OutputPanel({
             <div className="mt-2.5 flex flex-wrap gap-1.5">
               <Badge>done {counts.done}</Badge>
               {counts.pending > 0 && <Badge>queued {counts.pending}</Badge>}
-              {counts.generating > 0 && <Badge tone="amber">active {counts.generating}</Badge>}
-              {counts.error > 0 && <Badge tone="rose">failed {counts.error}</Badge>}
+              {counts.generating > 0 && <Badge tone="warn">active {counts.generating}</Badge>}
+              {counts.error > 0 && <Badge tone="danger">failed {counts.error}</Badge>}
             </div>
           )}
         </div>
 
         {/* Primary actions */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
           {running ? (
             <button
               type="button"
               onClick={onCancel}
-              className="flex items-center gap-2 rounded-xl border border-rose-400/30 bg-rose-400/10 px-5 py-3 text-sm font-semibold text-rose-300 transition hover:bg-rose-400/20"
+              className="flex items-center gap-2 rounded-lg border border-danger/30 bg-danger/10 px-4 py-2.5 text-sm font-medium text-danger transition hover:bg-danger/15"
             >
               {Icon.stop()} Stop
             </button>
@@ -144,9 +145,8 @@ export function OutputPanel({
               type="button"
               onClick={onGenerate}
               disabled={!canGenerate}
-              className="flex items-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-semibold text-zinc-950 shadow-[0_10px_30px_-10px_rgba(251,191,36,0.5)] transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:shadow-none"
+              className="rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
             >
-              {Icon.sparkle()}
               {counts.error > 0
                 ? `Retry failed (${counts.error})`
                 : counts.done > 0 && remaining > 0
@@ -158,7 +158,7 @@ export function OutputPanel({
             <button
               type="button"
               onClick={onAssemble}
-              className="flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20"
+              className="flex items-center gap-2 rounded-lg border border-success/30 bg-success/10 px-4 py-2.5 text-sm font-medium text-success transition hover:bg-success/15"
             >
               {Icon.waveform("h-4 w-4")}
               {allDone ? "Stitch audiobook" : `Stitch what's ready (${counts.done})`}
@@ -168,52 +168,39 @@ export function OutputPanel({
 
         {/* Result */}
         {combined && (
-          <div className="animate-rise space-y-4 rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] p-4">
+          <div className="animate-rise space-y-4 rounded-lg border border-border bg-panel-2/50 p-4">
             <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-sm font-semibold text-emerald-300">
-                {Icon.check("h-4 w-4")} Your audiobook is ready
+              <div className="flex items-center gap-2 text-sm font-medium text-text">
+                <span className="text-success">{Icon.check("h-4 w-4")}</span> Your audiobook is ready
               </div>
-              <span className="font-mono text-xs text-emerald-200/70">{formatDuration(combined.durationSec)}</span>
+              <span className="font-mono text-xs text-text-3">{formatDuration(combined.durationSec)}</span>
             </div>
 
-            <audio controls preload="metadata" src={combined.url} className="rounded-lg" />
-
-            <div className="flex items-center justify-between text-[11px] text-zinc-500">
-              <span>Changed the paragraph pause or settings?</span>
-              <button
-                type="button"
-                onClick={onAssemble}
-                className="flex items-center gap-1 text-zinc-400 underline decoration-white/20 underline-offset-2 transition hover:text-amber-300"
-              >
-                {Icon.retry("h-3 w-3")} Re-stitch
-              </button>
-            </div>
+            <audio controls preload="metadata" src={combined.url} />
 
             <div>
-              <label className="mb-1.5 block text-[11px] font-medium tracking-wide text-zinc-400">
-                File name
-              </label>
+              <label className="mb-1.5 block text-[11px] font-medium text-text-2">File name</label>
               <input
                 value={title}
                 onChange={(e) => onTitleChange(e.target.value)}
                 placeholder="my-audiobook"
-                className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-amber-400/40 focus:outline-none"
+                className="w-full rounded-lg border border-border bg-panel px-3 py-2 text-sm text-text placeholder:text-text-3 focus:border-border-2 focus:outline-none"
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={() => downloadBlob(combined.url, `${slugify(title)}.wav`)}
-                className="flex items-center gap-2 rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-300"
+                className="flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg transition hover:opacity-90"
               >
                 {Icon.download()} Download WAV
               </button>
-              <div className="flex items-center overflow-hidden rounded-xl border border-white/15">
+              <div className="flex items-stretch overflow-hidden rounded-lg border border-border">
                 <select
                   value={bitrate}
                   onChange={(e) => setBitrate(Number(e.target.value))}
-                  className="h-full bg-transparent px-2.5 py-2.5 text-xs text-zinc-300 focus:outline-none [&>option]:bg-zinc-900"
+                  className="bg-panel px-2.5 py-2.5 text-xs text-text-2 focus:outline-none"
                   title="MP3 bitrate"
                 >
                   <option value={64}>64k</option>
@@ -225,7 +212,7 @@ export function OutputPanel({
                   type="button"
                   onClick={exportMp3}
                   disabled={mp3State.running}
-                  className="flex items-center gap-2 border-l border-white/15 px-4 py-2.5 text-sm font-semibold text-zinc-200 transition hover:bg-white/10 disabled:opacity-50"
+                  className="flex items-center gap-2 border-l border-border px-4 py-2.5 text-sm font-medium text-text transition hover:bg-panel-2 disabled:opacity-50"
                 >
                   {mp3State.running ? (
                     <>
@@ -236,9 +223,17 @@ export function OutputPanel({
                   )}
                 </button>
               </div>
+              <button
+                type="button"
+                onClick={onAssemble}
+                title="Re-stitch (applies the current paragraph pause)"
+                className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-2.5 text-xs text-text-2 transition hover:border-border-2 hover:text-text"
+              >
+                {Icon.retry("h-3 w-3")} Re-stitch
+              </button>
             </div>
-            <p className="text-[11px] leading-relaxed text-zinc-500">
-              WAV is lossless but large. MP3 encodes in your browser — smaller files, perfect for sharing.
+            <p className="text-[11px] leading-relaxed text-text-3">
+              WAV is lossless but large. MP3 encodes in your browser — smaller files, easier to share.
             </p>
           </div>
         )}

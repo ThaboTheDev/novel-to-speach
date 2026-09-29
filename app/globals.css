@@ -1,27 +1,65 @@
 @import "tailwindcss";
 
-@theme {
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Semantic design tokens — flipped by the .dark class (set pre-paint in layout).
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --bg: #fafafa;          /* page background        zinc-50   */
+  --panel: #ffffff;       /* card surface           white     */
+  --panel-2: #f4f4f5;     /* inset / subtle fill    zinc-100  */
+  --border: #e4e4e7;      /* hairline borders       zinc-200  */
+  --border-2: #d4d4d8;    /* hover borders          zinc-300  */
+  --text: #18181b;        /* primary text           zinc-900  */
+  --text-2: #52525b;      /* secondary text         zinc-600  */
+  --text-3: #a1a1aa;      /* muted text             zinc-400  */
+  --accent: #18181b;      /* primary buttons        zinc-900  */
+  --accent-fg: #fafafa;   /* text on primary buttons          */
+  --success: #059669;     /* emerald-600 */
+  --danger: #e11d48;      /* rose-600    */
+  --warn: #d97706;        /* amber-600   */
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #09090b;          /* zinc-950  */
+  --panel: #111113;       /* elevated surface */
+  --panel-2: #1b1b1e;     /* zinc-900-ish */
+  --border: #26262a;      /* zinc-800  */
+  --border-2: #3f3f46;    /* zinc-700  */
+  --text: #f4f4f5;        /* zinc-100  */
+  --text-2: #a1a1aa;      /* zinc-400  */
+  --text-3: #71717a;      /* zinc-500  */
+  --accent: #fafafa;      /* white button */
+  --accent-fg: #09090b;
+  --success: #34d399;     /* emerald-400 */
+  --danger: #fb7185;      /* rose-400    */
+  --warn: #fbbf24;        /* amber-400   */
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-border: var(--border);
+  --color-border-2: var(--border-2);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
+
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
-  --color-ink: #09090d;
-  --color-panel: #101014;
-
-  --animate-shimmer: shimmer 2.2s linear infinite;
-  --animate-pulse-soft: pulse-soft 1.6s ease-in-out infinite;
-  --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-
-  @keyframes shimmer {
-    from { background-position: 200% 0; }
-    to { background-position: -200% 0; }
-  }
-  @keyframes pulse-soft {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.45; }
-  }
+  --animate-rise: rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   @keyframes rise {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
   }
 }
@@ -31,70 +69,37 @@ html {
 }
 
 body {
-  background-color: var(--color-ink);
-  color: #d4d4d8;
+  background-color: var(--bg);
+  color: var(--text-2);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: rgba(251, 191, 36, 0.28);
-  color: #fef3c7;
+  background: rgba(127, 127, 140, 0.25);
 }
 
-/* Slim scrollbars that match the theme */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #3f3f46 transparent;
+  scrollbar-color: var(--border-2) transparent;
 }
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: var(--border-2);
   border-radius: 8px;
 }
 *::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* Range inputs */
 input[type="range"] {
-  accent-color: #fbbf24;
+  accent-color: var(--text);
 }
 
-/* Native audio element tint */
 audio {
   width: 100%;
   height: 40px;
-  color-scheme: dark;
-}
-
-.noise-overlay {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.text-gradient {
-  background: linear-gradient(105deg, #fef3c7 0%, #fbbf24 45%, #f59e0b 70%, #fde68a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.progress-shimmer {
-  background-image: linear-gradient(
-    100deg,
-    #f59e0b 0%,
-    #fbbf24 25%,
-    #fde68a 50%,
-    #fbbf24 75%,
-    #f59e0b 100%
-  );
-  background-size: 200% 100%;
-  animation: var(--animate-shimmer);
+  border-radius: 8px;
 }
