@@ -2,17 +2,29 @@
 
 Turn novels and long-form text into downloadable audiobooks using [Groq's Orpheus TTS](https://console.groq.com/docs/text-to-speech) expressive voices.
 
-Paste a chapter (or a whole book), pick a narrator, optionally set a delivery style like `[professionally]`, and the studio splits your text into API-sized segments, generates them in parallel, and stitches everything into one audio file you can download as **WAV** or **MP3** — right in the browser.
+Import a **PDF, DOCX or EPUB**, or paste a chapter, choose a narrator, optionally set a delivery style like `[professionally]`, and the studio splits your text into API-sized segments, generates them in parallel, and stitches everything into one audio file you can download as **WAV** or **MP3** — right in the browser.
 
 ## ✨ Features
 
-- **Web studio UI** — manuscript editor with drag-&-drop `.txt` upload, live stats, and cost estimates
+- **Import real documents** — PDF, DOCX, EPUB, TXT, Markdown, HTML and RTF. Text is extracted **locally in your browser** (PDF.js / mammoth / fflate) — files are never uploaded anywhere
+- **Web studio UI** — manuscript editor with live stats and cost estimates, light/dark theme
 - **12 voices / 2 languages** — English (with vocal-direction control) and Saudi-dialect Arabic, all with one-click previews
 - **Smart segmentation** — sentence-aware splitting that respects the API's 200-character limit and preserves paragraph pauses
 - **Resilient pipeline** — limited parallelism with automatic retry/backoff, per-segment status, resume and "retry failed"
 - **In-browser stitching & MP3** — chapters are assembled client-side; MP3 encoding happens locally too. Your text never touches a database
 - **Server-side key** — `GROQ_API_KEY` lives only in a serverless route; it is never shipped to the browser
 - **CLI tooling** — the original Python scripts, fixed and upgraded, remain in [`backend/`](backend/) for offline batch work
+
+### Supported import formats
+
+| Format | Engine | Notes |
+|---|---|---|
+| `.pdf` | PDF.js | Text-based PDFs (scanned/image PDFs need OCR first) |
+| `.docx` | mammoth | Raw text extraction |
+| `.epub` | built-in (fflate) | Chapters extracted in spine order; DRM-free only |
+| `.txt` / `.md` | built-in | Plain text / Markdown (markers are read literally) |
+| `.html` | built-in | Tags stripped, scripts/styles ignored |
+| `.rtf` | built-in | Best-effort basic conversion |
 
 ## 🚀 Deploy to Vercel (recommended)
 
