@@ -1,0 +1,33 @@
+Available Voices (use the ID with --voice):
+
+Male (recommended for deep narration):
+- atlas
+- orion
+- rex
+- helios
+- perseus
+- sirius
+- altair
+- castor
+- cosmo
+- helix
+- kepler
+- leo
+- lumen
+- lux
+- naksh
+- rigel
+- sal
+- zagan
+- zenith
+
+Female:
+- ara
+- aurora
+- carina
+- celeste
+- eve
+- iris
+- liora
+- luna
+- ursa
